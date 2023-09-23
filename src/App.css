@@ -1,38 +1,188 @@
-.App {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.main {
+  height: 100vh;
+  position: relative;
+}
+
+.NavHead {
+  display: flex;
+  height: 8vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #42b9be;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+}
+.NavHead h3{
+  color: #ffffff;
+  font-size: 25px;
+}
+.Plus {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  background-color: aquamarine;
+  display: flex;
+  font-size: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 60%;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.Form-Container {
+  transition: 1.5s;
+  width: 30%;
+  height: 30vh;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  box-shadow: 0px 0px 10px 3px #ccc;
+  border-radius: 10px;
+}
+.Form-Container-Open {
+  top: 10%;
+  z-index: 3;
+}
+
+.Form-Box {
+  padding: 10px;
+}
+.Form-Box label {
+  font-size: 20px;
+}
+.Form-Box input,
+select {
+  font-size: 20px;
+  /* padding: 5px; */
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  background: transparent;
+  border-bottom: 3px solid rgb(90, 89, 84);
+  width: 60%;
+}
+.Form-Box input:focus {
+  border-bottom: 3px solid #15efff;
+}
+
+.SaveBtn {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.SaveBtn button {
+  margin-top: 10px;
+  font-size: 15px;
+  padding: 5px 12px 5px 12px;
+  background-color: #5280fd;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Close-Btn {
+  text-align: end;
+  margin: 5px 10px 5px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.overlay {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  z-index: -1;
+}
+.showoverlay {
+  opacity: 1;
+  z-index: 3;
+}
+.TaskContainer {
+  height: 92vh;
+  right: 0;
+  position: absolute;
+  width: 85%;
+  background-color: #f9f9fb;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  /* margin-top: 20px; */
 }
 
-.App-link {
-  color: #61dafb;
+.taskBox {
+  margin-top: 20px;
+  width: 90%;
+  background-color: #24a0ed;
+  display: flex;
+  justify-content: space-around;
+  /* margin-bottom: 10px; */
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.taskdetail {
+  display: flex;
+  flex-direction: column;
+
+  width: 30%;
+  padding: 10px;
+  text-align: center;
+}
+.detail-name {
+  font-size: 20px;
+  font-weight: 500;
+}
+.detailhead {
+  font-size: 15px;
+  font-weight: 600;
+}
+.detail-option {
+  width: 30%;
+  align-items: center;
+  align-self: center;
+  display: flex;
+}
+.detail-status {
+  width: 90%;
+  font-size: 20px;
+  padding: 0px 10px 0px 10px;
+}
+.edit-icon {
+  font-size: 20px;
+  color: #42b9be;
+  background-color:#ffffff;
+  padding: 8px;
+  border-radius: 50%;
+  margin-left: 100px;
+  cursor: pointer;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.SideContainer {
+  height: 92vh;
+  width: 15%;
+  position: fixed;
+  background-color: #494d55;
+  text-align: center;
+}
+.SideContainer h4 {
+  color: #f3f3f4;
+  font-size: 25px;
+  font-weight: 500;
+  margin: 40px 0 40px 0;
+}
+
+.Content-Box {
+  width: 100%;
+  top: 8vh;
+  position: absolute;
+  display: flex;
 }
