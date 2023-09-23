@@ -1,11 +1,17 @@
 import { faClose, faPen, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import "./App.css";
 import SideMenu from "./component/SideMenu";
 
 const App = () => {
+  const [Count,SetCount]=useState({
+    Ocnt:0,
+    Icnt:0,
+    Ccnt:0,
+  });
   const [formBtn, setFormBtn] = useState(true);
   const [Editbtn, setEditBtn] = useState(false);
   const [updateIndex, setUpdateIndex] = useState(-1);
@@ -13,9 +19,8 @@ const App = () => {
   const [EntryData, setEntryData] = useState({
     ProjectName: "",
     EmployeeName: "",
-    Status: "",
+    Status:"",
   });
-
   const handleId = (e, ind, val) => {
     console.log(ind);
     setUpdateIndex(ind);
@@ -60,8 +65,28 @@ const App = () => {
     });
     setEditBtn(false);
     alert("Task Updated");
+   
     handleClose();
   };
+  
+
+  const handleCnt=()=>{
+    data.map((val, ind) => {
+      if(val.Status=="Open"){
+        SetCount({...Count,["Ocnt"]:Count.Ocnt+1});
+        // setEntryData({ ...EntryData, ["id"]: `${data.length}` });
+      }
+      else if(val.Status=="In Progress"){
+        SetCount({...Count,["Icnt"]:Count.Icnt+1});
+      }
+      else if(val.Status=="Completed"){
+        SetCount({...Count,["Ccnt"]:Count.Ccnt+1});
+        // setEntryData({ ...EntryData, ["id"]: `${data.length}` });
+      }
+      return val;
+    });
+   
+  }
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -72,20 +97,23 @@ const App = () => {
     } else if (EntryData.Status == "") {
       alert("Set Status");
     } else {
-      setEntryData({...EntryData,["id"]:`${data.length}`});
-      // console.log(EntryData);
       setData((data) => [...data, EntryData]);
       setEntryData({
-        // "id":`${data.length}`,
         ProjectName: "",
         EmployeeName: "",
-        Status: "",
+        Status:"",
       });
       alert("New Project Assigned");
+     
       handleClose();
       // console.log(data);
     }
   };
+
+  useEffect(()=>{
+    handleCnt();
+    
+  },[data])
   return (
     <div className="main">
       <div className={!formBtn ? "showoverlay overlay" : "overlay"}></div>
@@ -96,31 +124,58 @@ const App = () => {
       <div className="Content-Box">
         <SideMenu />
         <div className="TaskContainer">
-          {data.map((val, ind) => {
-            return (
-              <div key={ind} className="taskBox" id={ind}>
-                <div className="taskdetail">
-                  <h2 className="detailhead">Employee Name</h2>
-                  <h2 className="detail-name">{val.EmployeeName}</h2>
+        <div className="Dashboard">
+          <div className="Dashboard-Box1">
+          <div className="proj">
+            <h4>Projects</h4>
+            <h6>{data.length}</h6>
+          </div>
+          <div className="proj-stus">
+            <h6>Open : {Count.Ocnt}</h6>
+            <h6>In Process : {Count.Icnt}</h6>
+            <h6>Completed : {Count.Ccnt}</h6>
+          </div>
+          </div>
+          <div className="Dashboard-Box2">
+            <h4>Employes</h4>
+            <h6>{data.length}</h6>
+          </div>
+        </div>
+
+
+          {data.length == 0 ? (
+            <div className="Empty-Container">
+              <p>
+                No Projects Assigned to Employees,Click on + button on bottom Right of Screen .
+              </p>
+            </div>
+          ) : (
+            data.map((val, ind) => {
+              return (
+                <div key={ind} className="taskBox" id={ind}>
+                  <div className="taskdetail">
+                    <h2 className="detailhead">Employee Name</h2>
+                    <h2 className="detail-name">{val.EmployeeName}</h2>
+                  </div>
+                  <div className="taskdetail">
+                    <h2 className="detailhead">Project Assigned</h2>
+                    <h2 className="detail-name">{val.ProjectName}</h2>
+                  </div>
+                  <div className="detail-option">
+                    <h2 className="detail-status">{val.Status}</h2>
+                    <FontAwesomeIcon
+                      icon={faPen}
+                      className="edit-icon"
+                      id={`${ind}-k`}
+                      onClick={(e) => {
+                        handleId(e, ind, val);
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="taskdetail">
-                  <h2 className="detailhead">Project Assigned</h2>
-                  <h2 className="detail-name">{val.ProjectName}</h2>
-                </div>
-                <div className="detail-option">
-                  <h2 className="detail-status">{val.Status}</h2>
-                  <FontAwesomeIcon
-                    icon={faPen}
-                    className="edit-icon"
-                    id={`${ind}-k`}
-                    onClick={(e) => {
-                      handleId(e, ind, val);
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
 
@@ -161,10 +216,10 @@ const App = () => {
             <div>
               <label htmlFor="Status">Status:</label>
               <select name="Status" onChange={handleInput}>
-                <option value=""></option>
+                <option value="" ></option>
                 <option value="Open">Open</option>
-                <option value="In Process">In Process</option>
-                <option value="Completed">Completed</option>
+                <option value="In Process" disabled={!Editbtn}>In Process</option>
+                <option value="Completed" disabled={!Editbtn}>Completed</option>
               </select>
             </div>
             <div className="SaveBtn">
