@@ -7,11 +7,15 @@ import "./App.css";
 import SideMenu from "./component/SideMenu";
 
 const App = () => {
-  const [Count,SetCount]=useState({
+  const [Count,setCount]=useState({
     Ocnt:0,
     Icnt:0,
     Ccnt:0,
   });
+  const [dummy,setDummy]=useState(0);
+  const [cnt1,setCnt1]=useState(0);
+  const [cnt2,setCnt2]=useState(0);
+  const [cnt3,setCnt3]=useState(0);
   const [formBtn, setFormBtn] = useState(true);
   const [Editbtn, setEditBtn] = useState(false);
   const [updateIndex, setUpdateIndex] = useState(-1);
@@ -48,6 +52,7 @@ const App = () => {
       }
       return val;
     });
+    setDummy(dummy+1);
     if (EntryData.Status == "In Process") {
       document.getElementById(updateIndex).style.backgroundColor = "yellow";
     } else if (EntryData.Status == "Completed") {
@@ -69,22 +74,25 @@ const App = () => {
     handleClose();
   };
   
-
+  
   const handleCnt=()=>{
     data.map((val, ind) => {
       if(val.Status=="Open"){
-        SetCount({...Count,["Ocnt"]:Count.Ocnt+1});
-        // setEntryData({ ...EntryData, ["id"]: `${data.length}` });
+        setCnt1(cnt1+1);
       }
-      else if(val.Status=="In Progress"){
-        SetCount({...Count,["Icnt"]:Count.Icnt+1});
+      else if(val.Status=="In Process"){
+        setCnt1(cnt1?cnt1-1:0);
+        setCnt2(cnt2+1);
       }
       else if(val.Status=="Completed"){
-        SetCount({...Count,["Ccnt"]:Count.Ccnt+1});
+        setCnt2(cnt2?cnt2-1:0);
+        setCnt3(cnt3+1);
+     
         // setEntryData({ ...EntryData, ["id"]: `${data.length}` });
       }
       return val;
     });
+    // setCount({[]})
    
   }
 
@@ -98,6 +106,7 @@ const App = () => {
       alert("Set Status");
     } else {
       setData((data) => [...data, EntryData]);
+      setDummy(dummy+1);
       setEntryData({
         ProjectName: "",
         EmployeeName: "",
@@ -113,7 +122,7 @@ const App = () => {
   useEffect(()=>{
     handleCnt();
     
-  },[data])
+  },[dummy]);
   return (
     <div className="main">
       <div className={!formBtn ? "showoverlay overlay" : "overlay"}></div>
@@ -131,9 +140,9 @@ const App = () => {
             <h6>{data.length}</h6>
           </div>
           <div className="proj-stus">
-            <h6>Open : {Count.Ocnt}</h6>
-            <h6>In Process : {Count.Icnt}</h6>
-            <h6>Completed : {Count.Ccnt}</h6>
+            <h6>Open : {cnt1}</h6>
+            <h6>In Process : {cnt2}</h6>
+            <h6>Completed : {cnt3}</h6>
           </div>
           </div>
           <div className="Dashboard-Box2">
